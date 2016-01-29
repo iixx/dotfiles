@@ -13,8 +13,8 @@ endfunction
 
 function! s:before()
     call s:platformInit()
-    let s:backupDir = expand($vimrcDir.'/.vim-backup')
-    let s:undoDir = expand($vimrcDir.'/.vim-undo')
+    let s:backupDir = expand($HOME.'/.vim-backup')
+    let s:undoDir = expand($HOME.'/.vim-undo')
     if has('gui_running')
         set guioptions+=M
     endif
@@ -25,28 +25,20 @@ function! s:common()
     set shortmess+=filmnrxoOtTI
     set history=2048
     set helplang=cn
-    set mouse=a mousehide
+    set mouse=a mousehide | behave xterm | set keymodel=startsel,stopsel
     set title titleold=
-    set hidden
     set timeout timeoutlen=1200 ttimeout ttimeoutlen=100
     set viewoptions=folds,options,cursor,unix,slash
     set display+=lastline
     set tabpagemax=20
     set wildmenu wildmode=list:longest,full
+    set hidden
 
     set fileformat=unix
     set fileformats=unix,dos
     set encoding=utf-8
     setglobal fileencoding=utf-8
     set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
-
-    if has('clipboard')
-        if has('unnamedplus')
-            set clipboard=unnamed,unnamedplus
-        else
-            set clipboard=unnamed
-        endif
-    endif
 
     if isdirectory(s:backupDir)
         set backup
@@ -97,18 +89,11 @@ function! s:platformInit()
         endfunction
     " }
 
-    let $vimrcDir = $HOME
     if s:isWindows()
         set rtp+=$HOME/.vim,$HOME/.vim/after
         language messages zh_CN.utf-8
-        if exists('g:vimrcDir_on_windows')
-            let $vimrcDir = g:vimrcDir_on_windows
-        endif
     else
         set shell=/bin/bash
-        if s:isCygwin()
-            let $vimrcDir = substitute(system("cygpath -m $HOME"), "\n", "", "")
-        endif
     endif
 endfunction
 
@@ -145,13 +130,15 @@ function! s:UI()
     syntax enable | syntax on
     set background=dark
 
-    if filereadable(expand("$vimrcDir/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+    try
         let g:solarized_termcolors=256
         let g:solarized_termtrans=1
         let g:solarized_contrast="normal"
         let g:solarized_visibility="normal"
         colorscheme solarized
-    endif
+    catch
+        echo 'colorscheme not found!'
+    endtry
 
     set ruler
     set showcmd
@@ -185,6 +172,10 @@ function! s:keyMappings()
         noremap <C-H> <C-W>h<C-W>_
 
         nnoremap Y y$
+        nnoremap <silent> <A-Up> :-1move -0<CR><Up>==
+        nnoremap <silent> <A-Down> :move +1<CR>==
+        nnoremap <silent> <C-A-Up> :copy -1<CR>
+        nnoremap <silent> <C-A-Down> :copy +0<CR>
 
         inoremap <C-K> <Up>
         inoremap <C-J> <Down>
@@ -201,7 +192,12 @@ function! s:keyMappings()
 
 " Leader key {
         nnoremap <leader>a ggvG$
+        nnoremap <leader>yy "+yy
+        nnoremap <leader>Y "+y$
         nnoremap <leader>bg :call ToggleBG()<CR>
+
+        vnoremap <leader>y "+y
+        vnoremap <leader>Y "+Y
 
         nmap <leader>/ :set invhlsearch<CR>
         nmap <leader>f0 :set foldlevel=0<CR>
@@ -260,7 +256,7 @@ endfunction
 
 function! s:pluginSettings()
     function! s:existPlugin(pluginName)
-        return isdirectory(expand("$vimrcDir/.vim/bundle/".a:pluginName))
+        return isdirectory(expand('$HOME/.vim/bundle/'.a:pluginName))
     endfunction
 
     " easymotion {
@@ -397,7 +393,12 @@ function! s:pluginSettings()
 
     " tagbar {
         if s:existPlugin("tagbar")
-            nnoremap <silent> <leader>tt :TagbarToggle<CR>
+            let g:tagbar_sort = 0
+            let g:tagbar_expand = 1
+            let g:tagbar_compact = 1
+            let g:tagbar_autofocus = 1
+            let g:tagbar_iconchars = ['+', '-']
+            nnoremap <silent> <F2> :TagbarToggle<CR>
         endif
     "}
 
@@ -439,19 +440,22 @@ endfunction
 
 
 function! s:plugins()
-    if !isdirectory($vimrcDir.'/.vim/bundle/Vundle.vim')
+    if !isdirectory($HOME.'/.vim/bundle/Vundle.vim')
         echo 'Vundle is not available'
         filetype plugin indent on
         return
     endif
     filetype off
-    set rtp+=$vimrcDir/.vim/bundle/Vundle.vim
-    let s:git_version = system('git --version')
-    if(s:git_version =~ 'msysgit' || s:git_version =~ 'windows')
-        call vundle#begin($vimrcDir.'/.vim/bundle')
-    else
-        call vundle#begin()
+    set rtp+=$HOME/.vim/bundle/Vundle.vim
+    let vundle_path = '$HOME/.vim/bundle'
+    if s:isCygwin()
+        let git_version = system('git --version')
+        if(git_version =~ 'msysgit' || git_version =~ 'windows')
+            let path_like_windows = substitute(system("cygpath -m $HOME"), "\n", "", "")
+            let vundle_path = path_like_windows.'/.vim/bundle'
+        endif
     endif
+    call vundle#begin(vundle_path)
     Plugin 'VundleVim/Vundle.vim'
     " common {
         Plugin 'scrooloose/nerdtree'
@@ -479,7 +483,6 @@ function! s:plugins()
     " }
 
     " code {
-        Plugin 'taglist.vim'
         Plugin 'TaskList.vim'
         Plugin 'majutsushi/tagbar'
         Plugin 'matchit.zip'
