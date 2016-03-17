@@ -90,7 +90,7 @@ function! s:platformInit()
     " }
 
     if s:isWindows()
-        set rtp+=$HOME/.vim,$HOME/.vim/after
+        set rtp=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
         language messages zh_CN.utf-8
     else
         set shell=/bin/bash
@@ -156,7 +156,7 @@ endfunction
 
 
 function! s:keyMappings()
-    let mapleader = '\'
+    let g:mapleader = '\'
     map <space> <leader>
 
     " Common key {
@@ -184,6 +184,8 @@ function! s:keyMappings()
         inoremap <C-U> <C-G>u<C-U>
         inoremap <C-R> <C-R><C-O>
         inoremap <C-V> <C-R><C-O>*
+        inoremap <buffer> <A-.> <C-X><C-O><C-P>
+        inoremap <buffer> <A-/> <C-X><C-O><C-P>
 
         vnoremap < <gv
         vnoremap > >gv
@@ -243,6 +245,27 @@ function! s:keyMappings()
         vnoremap 0 :<C-U>call WrapRelativeMotion("0", 1)<CR>
         vnoremap <Home> :<C-U>call WrapRelativeMotion("0", 1)<CR>
         vnoremap ^ :<C-U>call WrapRelativeMotion("^", 1)<CR>
+
+        function! VisualSelection(direction) range
+            let l:saved_reg = @"
+            execute "normal! vgvy"
+            let l:pattern = escape(@", '\\/.*$^~[]')
+            let l:pattern = substitute(l:pattern, "\n$", "", "")
+            if a:direction == 'b'
+                execute "normal ?" . l:pattern . "^M"
+            elseif a:direction == 'gv'
+                call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
+            elseif a:direction == 'replace'
+                call CmdLine("%s" . '/'. l:pattern . '/')
+            elseif a:direction == 'f'
+                execute "normal /" . l:pattern . "^M"
+            endif
+            let @/ = l:pattern
+            let @" = l:saved_reg
+        endfunction
+
+        vnoremap <silent> * :call VisualSelection('f')<CR>
+        vnoremap <silent> # :call VisualSelection('b')<CR>
     " }
 
     " Event {
@@ -250,6 +273,10 @@ function! s:keyMappings()
         "autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
         autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
         autocmd bufreadpost * silent! exec "normal! g'\""
+
+        autocmd Filetype java setlocal omnifunc=javacomplete#Complete
+        autocmd Filetype java inoremap <buffer> . .<C-X><C-O><C-P>
+        autocmd Filetype javascript inoremap <buffer> . .<C-X><C-O><C-P>
     " }
 endfunction
 
@@ -491,6 +518,8 @@ function! s:plugins()
         Plugin 'tpope/vim-surround'
         Plugin 'tpope/vim-commentary'
         Plugin 'mattn/emmet-vim'
+        Plugin 'ternjs/tern_for_vim'
+        "Plugin 'Valloric/YouCompleteMe'
         "Plugin 'scrooloose/syntastic'
         "Plugin 'klen/python-mode'
         "Plugin 'artur-shaik/vim-javacomplete2'
