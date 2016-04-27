@@ -162,8 +162,6 @@ function! s:keyMappings()
     " Common key {
         noremap j gj
         noremap k gk
-        noremap J gJ
-        noremap gJ J
         noremap zl zL
         noremap zh zH
         noremap <C-J> <C-W>j<C-W>_
