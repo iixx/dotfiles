@@ -164,6 +164,10 @@ function! s:keyMappings()
         noremap k gk
         noremap zl zL
         noremap zh zH
+        noremap zr zR
+        noremap zm zM
+        nnoremap yp "0p
+        nnoremap yP "0P
         noremap <C-J> <C-W>j<C-W>_
         noremap <C-K> <C-W>k<C-W>_
         noremap <C-L> <C-W>l<C-W>_
@@ -193,8 +197,10 @@ function! s:keyMappings()
 
 " Leader key {
         nnoremap <leader>a ggvG$
-        nnoremap <leader>yy "+yy
-        nnoremap <leader>Y "+y$
+        nnoremap <leader>y "*y
+        nnoremap <leader>Y "*y$
+        nnoremap <leader>p "*p
+        nnoremap <leader>P "*P
         nnoremap <leader>bg :call ToggleBG()<CR>
 
         vnoremap <leader>y "+y
@@ -312,6 +318,22 @@ function! s:pluginSettings()
 
     " NerdTree {
         if s:existPlugin("nerdtree")
+            if s:existPlugin("vim-nerdtree-tabs")
+                let g:nerdtree_tabs_open_on_console_startup=1
+            endif
+            if s:existPlugin("nerdtree-git-plugin")
+                let g:NERDTreeIndicatorMapCustom = {
+                            \ "Modified"  : "✹",
+                            \ "Staged"    : "✚",
+                            \ "Untracked" : "✭",
+                            \ "Renamed"   : "➜",
+                            \ "Unmerged"  : "═",
+                            \ "Deleted"   : "✖",
+                            \ "Dirty"     : "✗",
+                            \ "Clean"     : "✔︎",
+                            \ "Unknown"   : "?"
+                            \ }
+            endif
             map <silent> <F1> :NERDTreeToggle<CR>
             map <silent!> <leader>e :NERDTreeFind<CR>
             let NERDTreeShowBookmarks=1
@@ -320,6 +342,7 @@ function! s:pluginSettings()
             let NERDTreeQuitOnOpen=1
             let NERDTreeMouseMode=2
             let NERDTreeShowHidden=1
+            let NERDTreeShowLineNumbers=1
             let NERDTreeKeepTreeInNewTab=1
             let g:nerdtree_tabs_open_on_gui_startup=0
         endif
@@ -383,8 +406,9 @@ function! s:pluginSettings()
         if s:existPlugin("ctrlp.vim")
             let g:ctrlp_working_path_mode = 'ra'
             let g:ctrlp_custom_ignore = {
-                \ 'dir':  '\.git$\|\.hg$\|\.svn$',
-                \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$|\.class$' }
+                \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.idea$',
+                \ 'file': '\.class$\|\.exe$\|\.so$\|\.dll$\|\.pyc$'
+                \ }
 
             if executable('ag')
                 let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
@@ -485,6 +509,8 @@ function! s:plugins()
     Plugin 'VundleVim/Vundle.vim'
     " common {
         Plugin 'scrooloose/nerdtree'
+        Plugin 'jistr/vim-nerdtree-tabs'
+        Plugin 'Xuyuanp/nerdtree-git-plugin'
         Plugin 'ctrlpvim/ctrlp.vim'
         Plugin 'tacahiroy/ctrlp-funky'
         Plugin 'easymotion/vim-easymotion'
