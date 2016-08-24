@@ -166,14 +166,14 @@ function! s:keyMappings()
         noremap zh zH
         noremap zr zR
         noremap zm zM
-        nnoremap yp "0p
-        nnoremap yP "0P
         noremap <C-J> <C-W>j<C-W>_
         noremap <C-K> <C-W>k<C-W>_
         noremap <C-L> <C-W>l<C-W>_
         noremap <C-H> <C-W>h<C-W>_
 
         nnoremap Y y$
+        nnoremap yp "0p
+        nnoremap yP "0P
         nnoremap U <C-R>
         nnoremap <silent> <A-Up> :-1move -0<CR><Up>==
         nnoremap <silent> <A-Down> :move +1<CR>==
@@ -195,7 +195,7 @@ function! s:keyMappings()
         vnoremap . :normal .<CR>
     " }
 
-" Leader key {
+    " Leader key {
         nnoremap <leader>a ggvG$
         nnoremap <leader>y "*y
         nnoremap <leader>Y "*y$
