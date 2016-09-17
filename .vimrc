@@ -175,10 +175,10 @@ function! s:keyMappings()
         nnoremap yp "0p
         nnoremap yP "0P
         nnoremap U <C-R>
-        nnoremap <silent> <A-Up> :-1move -0<CR><Up>==
-        nnoremap <silent> <A-Down> :move +1<CR>==
-        nnoremap <silent> <C-A-Up> :copy -1<CR>
-        nnoremap <silent> <C-A-Down> :copy +0<CR>
+        nnoremap <silent> <M-Up> :-1move -0<CR><Up>==
+        nnoremap <silent> <M-Down> :move +1<CR>==
+        nnoremap <silent> <C-M-Up> :copy -1<CR>
+        nnoremap <silent> <C-M-Down> :copy +0<CR>
 
         inoremap <C-K> <Up>
         inoremap <C-J> <Down>
@@ -187,8 +187,8 @@ function! s:keyMappings()
         inoremap <C-U> <C-G>u<C-U>
         inoremap <C-R> <C-R><C-O>
         inoremap <C-V> <C-R><C-O>*
-        inoremap <buffer> <A-.> <C-X><C-O><C-P>
-        inoremap <buffer> <A-/> <C-X><C-O><C-P>
+        inoremap <buffer> <M-.> <C-X><C-O><C-P>
+        inoremap <buffer> <M-/> <C-X><C-O><C-P>
 
         vnoremap < <gv
         vnoremap > >gv
