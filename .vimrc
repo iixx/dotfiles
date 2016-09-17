@@ -193,6 +193,16 @@ function! s:keyMappings()
         vnoremap < <gv
         vnoremap > >gv
         vnoremap . :normal .<CR>
+
+        if s:isMac()
+            nnoremap <silent> <C-Up> :-1move -0<CR><Up>==
+            nnoremap <silent> <C-Down> :move +1<CR>==
+            nnoremap <silent> <C-D-Up> :copy -1<CR>
+            nnoremap <silent> <C-D-Down> :copy +0<CR>
+
+            inoremap <buffer> <D-.> <C-X><C-O><C-P>
+            inoremap <buffer> <D-/> <C-X><C-O><C-P>
+        endif
     " }
 
     " Leader key {
