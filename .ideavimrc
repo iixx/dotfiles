@@ -1,0 +1,36 @@
+set number relativenumber
+set hlsearch ignorecase smartcase
+set backspace=indent,eol,start
+
+let mapleader = '\'
+map <space> <leader>
+
+noremap j gj
+noremap k gk
+noremap zr zR
+noremap zm zM
+
+nnoremap 0 ^
+nnoremap - $
+nnoremap Y y$
+nnoremap yp "0p
+nnoremap yP "0P
+nnoremap U <C-R>
+
+nnoremap <leader>y "*y
+nnoremap <leader>Y "*y$
+nnoremap <leader>p "*p
+nnoremap <leader>P "*P
+
+inoremap <C-K> <Up>
+inoremap <C-J> <Down>
+inoremap <C-H> <Left>
+inoremap <C-L> <Right>
+
+vnoremap < <gv
+vnoremap > >gv
+
+nmap <leader>/ :set invhlsearch<CR>
+
+nnoremap gc :action CommentByLineComment<CR>
+nnoremap <leader>j :action emacsIDEAs.AceJumpWord<CR>
