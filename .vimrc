@@ -13,8 +13,8 @@ endfunction
 
 function! s:before()
     call s:platformInit()
-    let s:backupDir = expand($HOME.'/.vim-backup')
-    let s:undoDir = expand($HOME.'/.vim-undo')
+    "let s:backupDir = expand($HOME.'/.vim-backup')
+    "let s:undoDir = expand($HOME.'/.vim-undo')
     if has('gui_running')
         set guioptions+=M
     endif
@@ -40,14 +40,14 @@ function! s:common()
     setglobal fileencoding=utf-8
     set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 
-    if isdirectory(s:backupDir)
-        set backup
-        exec 'set bdir='.s:backupDir
-    endif
-    if has('persistent_undo') && isdirectory(s:undoDir)
-        set undofile undolevels=1000 undoreload=10000
-        exec 'set undodir='.s:undoDir
-    endif
+    "if isdirectory(s:backupDir)
+    "    set backup
+    "    exec 'set bdir='.s:backupDir
+    "endif
+    "if has('persistent_undo') && isdirectory(s:undoDir)
+    "    set undofile undolevels=1000 undoreload=10000
+    "    exec 'set undodir='.s:undoDir
+    "endif
 endfunction
 
 
