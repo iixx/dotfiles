@@ -329,7 +329,7 @@ function! s:pluginSettings()
     " NerdTree {
         if s:existPlugin("nerdtree")
             if s:existPlugin("vim-nerdtree-tabs")
-                let g:nerdtree_tabs_open_on_console_startup=1
+                let g:nerdtree_tabs_open_on_console_startup=0
             endif
             if s:existPlugin("nerdtree-git-plugin")
                 let g:NERDTreeIndicatorMapCustom = {
