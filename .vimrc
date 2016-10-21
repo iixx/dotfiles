@@ -1,4 +1,4 @@
-set nocompatible
+set nocompatible noundofile nobackup
 
 function! s:main()
     call s:before()
