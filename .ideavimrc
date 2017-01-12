@@ -21,6 +21,7 @@ nnoremap <leader>y "*y
 nnoremap <leader>Y "*y$
 nnoremap <leader>p "*p
 nnoremap <leader>P "*P
+nnoremap <leader>/ :set invhlsearch<CR>
 
 inoremap <C-K> <Up>
 inoremap <C-J> <Down>
@@ -30,7 +31,6 @@ inoremap <C-L> <Right>
 vnoremap < <gv
 vnoremap > >gv
 
-nmap <leader>/ :set invhlsearch<CR>
-
+noremap <F1> :action VimPluginToggle<CR>
 nnoremap gc :action CommentByLineComment<CR>
 nnoremap <leader>j :action emacsIDEAs.AceJumpWord<CR>

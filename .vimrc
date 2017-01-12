@@ -64,10 +64,12 @@ function! s:guiOrTerm()
             "autocmd GUIEnter * simalt ~x
         endif
     else
+        set mouse=nvc
         set term=$TERM
         if &term[:4] == 'xterm' || &term[:5] == 'screen' || &term[:3] == 'rxvt'
             set t_Co=256
-            inoremap <silent> <C-[>OC <RIGHT> " arrow key fix
+            " arrow key fix
+            inoremap <silent> <C-[>OC <RIGHT>
         endif
     endif
 endfunction
