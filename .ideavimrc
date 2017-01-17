@@ -1,6 +1,7 @@
 set number relativenumber
 set hlsearch ignorecase smartcase
 set backspace=indent,eol,start
+set scrolloff=1
 
 let mapleader = '\'
 map <space> <leader>

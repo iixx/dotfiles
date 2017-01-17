@@ -215,6 +215,10 @@ function! s:keyMappings()
         nnoremap <leader>P "*P
         nnoremap <leader>bg :call ToggleBG()<CR>
 
+        "查找所有匹配，并输出到单独的窗口中
+        "nnoremap <leader>lv :lv /<c-r>=expand("<cword>")<CR>/ %<CR>:lw<CR>
+        nnoremap <leader>lv :exec 'lv /' . input('[Find All]» ', expand('<cword>')) . '/j % <bar> lopen'<CR>
+
         vnoremap <leader>y "+y
         vnoremap <leader>Y "+Y
 
