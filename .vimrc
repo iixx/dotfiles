@@ -533,6 +533,7 @@ function! s:plugins()
         Plugin 'terryma/vim-multiple-cursors'
         Plugin 'gcmt/wildfire.vim'
         Plugin 'vim-scripts/sessionman.vim'
+        Plugin 'terryma/vim-expand-region'
     " }
 
     " UI {

@@ -2,14 +2,19 @@ set number relativenumber
 set hlsearch ignorecase smartcase
 set backspace=indent,eol,start
 set scrolloff=1
+set surround
 
 let mapleader = '\'
 map <space> <leader>
 
 noremap j gj
 noremap k gk
+noremap zl 24zl
+noremap zh 24zh
 noremap zr zR
 noremap zm zM
+noremap [[ [{
+noremap ]] ]}
 
 nnoremap 0 ^
 nnoremap - $
@@ -32,6 +37,10 @@ inoremap <C-L> <Right>
 vnoremap < <gv
 vnoremap > >gv
 
-noremap <F1> :action VimPluginToggle<CR>
+nnoremap <F1> :action VimPluginToggle<CR>
+inoremap <F1> <ESC>:action VimPluginToggle<CR><Right>
+
+noremap + :action EditorSelectWord<CR>
+noremap _ :action EditorUnSelectWord<CR>
 nnoremap gc :action CommentByLineComment<CR>
 nnoremap <leader>j :action emacsIDEAs.AceJumpWord<CR>
